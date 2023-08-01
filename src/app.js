@@ -1,6 +1,6 @@
 import express from "express";
 import cors from 'cors';
-import  indexRoute  from "./routes/indexRoutes.js";
+import  indexRoute  from "./routes/indexRoute.js";
 
 const app = express();
 app.use(express());
