@@ -1,7 +1,7 @@
 import { Router } from "express";
-import accountsRoutes from "./accountsRoutes.js";
+import usersRoutes from "./usersRoutes.js";
 
 const indexRoute = Router();
-indexRoute.use(accountsRoutes);
+indexRoute.use(usersRoutes);
 
 export default indexRoute;
