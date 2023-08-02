@@ -7,6 +7,6 @@ CREATE TABLE users (
 
 CREATE TABLE sessions (
 	id SERIAL PRIMARY KEY,
-	idUser INTEGER NOT NULL REFERENCES users(id),
+	"userId" INTEGER NOT NULL REFERENCES users(id),
 	token TEXT NOT NULL
 );
