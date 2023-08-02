@@ -5,3 +5,8 @@ CREATE TABLE users (
 	password TEXT NOT NULL
 );
 
+CREATE TABLE sessions (
+	id SERIAL PRIMARY KEY,
+	idUser INTEGER NOT NULL REFERENCES users(id),
+	token TEXT NOT NULL
+);
