@@ -42,15 +42,15 @@ export async function redirectByShort(req, res) {
     const {shortUrl} = req.params;    
     try {
         const response = await db.query(`
-            SELECT url, id , visitcount FROM urls WHERE "shortUrl" = $1 LIMIT 1; 
+            SELECT url, id , "visitCount" FROM urls WHERE "shortUrl" = $1 LIMIT 1; 
         `, [shortUrl]);
         if(response.rowCount === 0)return res.sendStatus(404);
-        let {visitcount, id} = response.rows[0];
-        visitcount++;
+        let {visitCount, id} = response.rows[0];
+        visitCount++;
 
         await db.query(`
-            UPDATE urls SET "visitcount" = $1 WHERE id = $2; 
-        `, [visitcount, id]);
+            UPDATE urls SET "visitCount" = $1 WHERE id = $2; 
+        `, [visitCount, id]);
         res.redirect(response.rows[0].url);
     } catch (error) {
         res.status(500).send(error.message);
@@ -77,11 +77,37 @@ export async function deleteUrl(req, res) {
 
 }
 
+export async function getMyUrls (req, res) { 
+    const userId =  res.locals.user.userId; 
+    try {
+        const response = await db.query(`
+        SELECT  users.id, users.name, SUM("visitCount") AS "visitCount"
+            FROM users
+            JOIN urls ON users.id = urls."userId"
+            WHERE users.id = $1
+            GROUP BY users.id                
+        ;
+        `, [userId]);  
+        
+        const urls = await db.query(`
+        SELECT id, url, "shortUrl", "visitCount" 
+            FROM urls
+            WHERE "userId" = $1
+        ;        
+        `, [userId]);
+
+        res.send({...response.rows[0], shortenedUrls: urls.rows});
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+
+}
+
 export async function getRanking (req, res) {    
     try {
         const response = await db.query(`
             SELECT  users.id, users.name ,COUNT(urls.id) AS "linksCount", 
-            SUM(urls.visitCount) As "visitCount" 
+            SUM(urls."visitCount") As "visitCount" 
                 FROM users
                 JOIN urls ON users.id = urls."userId"
                 GROUP BY users.id
