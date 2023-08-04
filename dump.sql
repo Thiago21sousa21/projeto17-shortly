@@ -27,7 +27,8 @@ SET default_table_access_method = heap;
 CREATE TABLE public.sessions (
     id integer NOT NULL,
     "userId" integer NOT NULL,
-    token text NOT NULL
+    token text NOT NULL,
+    "createdAt" timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -60,7 +61,8 @@ CREATE TABLE public.urls (
     "userId" integer NOT NULL,
     url text NOT NULL,
     "shortUrl" text NOT NULL,
-    "visitCount" integer DEFAULT 0 NOT NULL
+    "visitCount" integer DEFAULT 0 NOT NULL,
+    "createdAt" timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -92,7 +94,8 @@ CREATE TABLE public.users (
     id integer NOT NULL,
     name text NOT NULL,
     email text NOT NULL,
-    password text NOT NULL
+    password text NOT NULL,
+    "createdAt" timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -141,50 +144,39 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: sessions; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.sessions VALUES (1, 9, '242946b3-be32-4f11-904f-e155c3a9e914');
-INSERT INTO public.sessions VALUES (2, 11, '1e1c09be-ff24-42fa-8aff-36be11529cf0');
-INSERT INTO public.sessions VALUES (3, 12, 'b54c5b7d-8853-47ec-a237-27b8b91472a9');
-INSERT INTO public.sessions VALUES (4, 13, 'e20fa5bb-ab6f-445d-aa72-53a029f9c161');
 
 
 --
 -- Data for Name: urls; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.urls VALUES (3, 11, 'https://driven.com.br', '0rBdfC', 0);
-INSERT INTO public.urls VALUES (1, 11, 'https://extra.com.br', 'c47iSJ', 4);
-INSERT INTO public.urls VALUES (2, 11, 'https://google.com.br', '-MGgOj', 1);
 
 
 --
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.users VALUES (9, 'thiago', 'thiago@driven.com.br', '$2b$10$xhTMxpuNekPJB6KifZqrb.TT64LAuSQpEPjNJfdsv7KE56xp2yuF2');
-INSERT INTO public.users VALUES (11, 'leticia', 'leticia@driven.com.br', '$2b$10$bNF8a.CLwD2W4sFUgqSDEOQ2fKLoboiP7hCk.FWEWt.abz381nrRG');
-INSERT INTO public.users VALUES (12, 'ruan', 'ruan@driven.com.br', '$2b$10$fU8SVjZzWbsZ8VbO4M6/seerxmAmWESooeySyZ3fXiNJZqMcd2UYu');
-INSERT INTO public.users VALUES (13, 'darlan', 'darlan@driven.com.br', '$2b$10$o6FODCluP42EM.WCaF7GTemAaT5x0M.eMqVAT69HDsebEJcqXC5aO');
 
 
 --
 -- Name: sessions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.sessions_id_seq', 4, true);
+SELECT pg_catalog.setval('public.sessions_id_seq', 1, false);
 
 
 --
 -- Name: urls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.urls_id_seq', 3, true);
+SELECT pg_catalog.setval('public.urls_id_seq', 1, false);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 13, true);
+SELECT pg_catalog.setval('public.users_id_seq', 1, false);
 
 
 --
